@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   "use strict";
 
   // HEADER
@@ -6,14 +6,14 @@
   // HEADER
 
   // SMOOTHSCROLL
-  $(function() {
-    $(".nav-link, .custom-btn-link").on("click", function(event) {
+  $(function () {
+    $(".nav-link, .custom-btn-link").on("click", function (event) {
       var $anchor = $(this);
       $("html, body")
         .stop()
         .animate(
           {
-            scrollTop: $($anchor.attr("href")).offset().top - 49
+            scrollTop: $($anchor.attr("href")).offset().top - 49,
           },
           1000
         );
@@ -32,13 +32,15 @@
     smartSpeed: 2000,
     autoplay: false,
     pauseOnHover: true,
-    onDragged: function(event) {
-      if (event.relatedTarget["_drag"]["direction"] == "left") {
-        $(".slide-one-item-alt-text").trigger("next.owl.carousel");
-      } else {
-        $(".slide-one-item-alt-text").trigger("prev.owl.carousel");
-      }
-    }
+    touchDrag: false,
+    mouseDrag: false,
+    // onDragged: function(event) {
+    //   if (event.relatedTarget["_drag"]["direction"] == "left") {
+    //     $(".slide-one-item-alt-text").trigger("next.owl.carousel");
+    //   } else {
+    //     $(".slide-one-item-alt-text").trigger("prev.owl.carousel");
+    //   }
+    // }
   });
   $(".slide-one-item-alt-text").owlCarousel({
     center: false,
@@ -49,21 +51,23 @@
     smartSpeed: 2000,
     autoplay: false,
     pauseOnHover: true,
-    onDragged: function(event) {
-      if (event.relatedTarget["_drag"]["direction"] == "left") {
-        $(".slide-one-item-alt").trigger("next.owl.carousel");
-      } else {
-        $(".slide-one-item-alt").trigger("prev.owl.carousel");
-      }
-    }
+    touchDrag: false,
+    mouseDrag: false,
+    // onDragged: function(event) {
+    //   if (event.relatedTarget["_drag"]["direction"] == "left") {
+    //     $(".slide-one-item-alt").trigger("next.owl.carousel");
+    //   } else {
+    //     $(".slide-one-item-alt").trigger("prev.owl.carousel");
+    //   }
+    // }
   });
 
-  $(".custom-next").click(function(e) {
+  $(".custom-next").click(function (e) {
     e.preventDefault();
     $(".slide-one-item-alt").trigger("next.owl.carousel");
     $(".slide-one-item-alt-text").trigger("next.owl.carousel");
   });
-  $(".custom-prev").click(function(e) {
+  $(".custom-prev").click(function (e) {
     e.preventDefault();
     $(".slide-one-item-alt").trigger("prev.owl.carousel");
     $(".slide-one-item-alt-text").trigger("prev.owl.carousel");
