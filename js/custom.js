@@ -8,6 +8,7 @@
   // SMOOTHSCROLL
   $(function () {
     $(".nav-link, .custom-btn-link").on("click", function (event) {
+      document.getElementById("menuButton").click();
       var $anchor = $(this);
       $("html, body")
         .stop()

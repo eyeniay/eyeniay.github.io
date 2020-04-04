@@ -141,13 +141,12 @@ body {
   display: inline-block;
   height: 3.5rem;
   width: 3.5rem;
-  background-color: #1e3349;
-  color: #fff !important;
-  border-radius: 100%;
+  /* background-color: transparent; */
+  color: #1e3349 !important;
+  /* border-radius: 100%; */
   text-align: center;
   font-size: 1.5rem;
   line-height: 3.5rem;
-  margin-right: 1rem;
 }
 
 .social-icons a:last-child {
@@ -155,7 +154,8 @@ body {
 }
 
 .social-icons a:hover {
-  background-color: #0cb8b6;
+  border-radius: 100%;
+  background-color: #1e3349;
   color: #fff !important;
 }
 
@@ -383,6 +383,7 @@ strong {
   border-bottom: 1px solid #f0f0f0;
   padding-top: 0;
   padding-bottom: 0;
+  min-height: 45px;
 }
 
 .navbar-brand {
