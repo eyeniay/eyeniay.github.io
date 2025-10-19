@@ -17,6 +17,9 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  ACTIONS_STEP_DEBUG: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,10 +40,21 @@ jobs:
           static_site_generator: next
           
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |
+          echo "Installing dependencies..."
+          yarn install --frozen-lockfile
+          echo "Dependencies installed successfully"
         
       - name: Build with Next.js
-        run: yarn build
+        run: |
+          echo "Starting Next.js build..."
+          yarn build
+          echo "Build completed successfully"
+          
+      - name: List build output
+        run: |
+          echo "Build output directory contents:"
+          ls -la ./out
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
