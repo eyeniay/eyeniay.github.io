@@ -51,6 +51,12 @@ jobs:
           yarn build
           echo "Build completed successfully"
           
+      - name: Add .nojekyll file
+        run: |
+          echo "Adding .nojekyll file to disable Jekyll processing..."
+          touch ./out/.nojekyll
+          echo ".nojekyll file added successfully"
+          
       - name: List build output
         run: |
           echo "Build output directory contents:"
