@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           echo "Installing dependencies..."
-          yarn install --frozen-lockfile
+          yarn install
           echo "Dependencies installed successfully"
         
       - name: Build with Next.js
