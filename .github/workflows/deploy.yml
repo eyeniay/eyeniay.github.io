@@ -57,10 +57,22 @@ jobs:
           touch ./out/.nojekyll
           echo ".nojekyll file added successfully"
           
+      - name: Copy CNAME file
+        run: |
+          echo "Copying CNAME file for custom domain..."
+          cp CNAME ./out/CNAME
+          echo "CNAME file copied successfully"
+          
       - name: List build output
         run: |
           echo "Build output directory contents:"
           ls -la ./out
+          echo "Checking for _next directory:"
+          ls -la ./out/_next/
+          echo "Checking for static assets:"
+          ls -la ./out/_next/static/
+          echo "Index.html content (first 50 lines):"
+          head -50 ./out/index.html
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
