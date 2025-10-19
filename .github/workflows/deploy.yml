@@ -34,10 +34,6 @@ jobs:
           node-version: '18'
           cache: 'yarn'
           
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          static_site_generator: next
           
       - name: Install dependencies
         run: |
