@@ -17,7 +17,6 @@ export default function Home() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up")
             setActiveSection(entry.target.id)
           }
         })

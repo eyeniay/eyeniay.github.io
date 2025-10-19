@@ -54,7 +54,7 @@ export function WorkSection({ sectionsRef, currentYear }: WorkSectionProps) {
           sectionsRef.current[1] = el
         }
       }}
-      className="min-h-screen py-20 sm:py-32 opacity-0"
+      className="min-h-screen py-20 sm:py-32"
     >
       <div className="space-y-12 sm:space-y-16">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 interface CarouselItem {
   title: string
@@ -14,60 +14,64 @@ interface InfiniteCarouselProps {
 }
 
 export function InfiniteCarousel({ items, direction }: InfiniteCarouselProps) {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  // Start with enough copies to fill the screen and avoid gaps
+  const [displayItems, setDisplayItems] = useState<CarouselItem[]>(() => {
+    const copies = Math.max(3, Math.ceil(1920 / 296)) // Ensure enough items for any screen
+    return Array(copies).fill(items).flat()
+  })
+  const animationRef = useRef<number | undefined>(undefined)
+  const scrollPositionRef = useRef(0)
 
   useEffect(() => {
-    const scrollContainer = scrollRef.current
-    if (!scrollContainer) return
+    const container = containerRef.current
+    if (!container) return
 
-    let animationFrame: number
-    const speed = 0.3 // pixels per frame
+    const speed = 0.5 // pixels per frame
+    const itemWidth = 296 // 280px + 16px gap
+    const singleSetWidth = items.length * itemWidth
     
     const animate = () => {
-      if (scrollContainer) {
-        if (direction === "left") {
-          scrollContainer.scrollLeft += speed
-          // Reset when we've scrolled through half the content (since it's duplicated)
-          if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-            scrollContainer.scrollLeft = 0
-          }
-        } else {
-          scrollContainer.scrollLeft -= speed
-          // Reset when we've scrolled back to the end
-          if (scrollContainer.scrollLeft <= 0) {
-            scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2
-          }
+      if (direction === "left") {
+        scrollPositionRef.current += speed
+        // Reset position seamlessly when we've scrolled one complete set
+        if (scrollPositionRef.current >= singleSetWidth) {
+          scrollPositionRef.current = scrollPositionRef.current - singleSetWidth
+        }
+      } else {
+        scrollPositionRef.current -= speed
+        // Reset position seamlessly for right direction
+        if (scrollPositionRef.current <= 0) {
+          scrollPositionRef.current = scrollPositionRef.current + singleSetWidth
         }
       }
-      animationFrame = requestAnimationFrame(animate)
+      
+      container.style.transform = `translateX(${-scrollPositionRef.current}px)`
+      animationRef.current = requestAnimationFrame(animate)
     }
 
-    // Start animation
-    animationFrame = requestAnimationFrame(animate)
-
-    // Set initial position for right direction
+    // Initialize scroll position for right direction
     if (direction === "right") {
-      scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2
+      scrollPositionRef.current = singleSetWidth
     }
+
+    animationRef.current = requestAnimationFrame(animate)
 
     return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [direction])
-
-  // Duplicate items for seamless loop
-  const duplicatedItems = [...items, ...items]
+  }, [items, direction])
 
   return (
     <div className="relative overflow-hidden">
       <div
-        ref={scrollRef}
-        className="flex gap-4 overflow-x-hidden scrollbar-hide"
-        style={{ scrollBehavior: 'auto' }}
+        ref={containerRef}
+        className="flex gap-4"
+        style={{ willChange: 'transform' }}
       >
-        {duplicatedItems.map((item, index) => (
+        {displayItems.map((item: CarouselItem, index: number) => (
           <div
             key={`${item.title}-${index}`}
             className="flex-none p-4 bg-muted/20 border border-border rounded-lg min-w-[280px]"

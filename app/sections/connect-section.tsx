@@ -25,7 +25,7 @@ export function ConnectSection({ sectionsRef, currentYear }: ConnectSectionProps
             sectionsRef.current[2] = el
           }
         }} 
-        className="py-20 sm:py-32 opacity-0"
+        className="py-20 sm:py-32"
       >
         <div className="grid lg:grid-cols-2 gap-12 sm:gap-16">
           <div className="space-y-6 sm:space-y-8">
