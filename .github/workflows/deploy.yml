@@ -48,7 +48,7 @@ jobs:
       - name: Build with Next.js
         run: |
           echo "Starting Next.js build..."
-          yarn build
+          NODE_ENV=production yarn build
           echo "Build completed successfully"
           
       - name: Add .nojekyll file
@@ -71,8 +71,14 @@ jobs:
           ls -la ./out/_next/
           echo "Checking for static assets:"
           ls -la ./out/_next/static/
-          echo "Index.html content (first 50 lines):"
-          head -50 ./out/index.html
+          echo "Checking CSS files:"
+          ls -la ./out/_next/static/css/ || echo "No CSS directory found"
+          echo "Checking JS chunks:"
+          ls -la ./out/_next/static/chunks/ || echo "No chunks directory found"
+          echo "Checking for .nojekyll and CNAME:"
+          ls -la ./out/.nojekyll ./out/CNAME || echo "Missing files"
+          echo "Index.html first 20 lines:"
+          head -20 ./out/index.html
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
